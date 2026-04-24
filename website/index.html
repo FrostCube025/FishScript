@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FishScript - Aquarium Programming Language</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/fishscript-logo.svg" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand">
+      <img src="assets/fishscript-logo.svg" alt="FishScript logo" />
+      <span>FishScript</span>
+    </div>
+    <div class="links">
+      <a href="#install">Install</a>
+      <a href="#syntax">Syntax</a>
+      <a href="#examples">Examples</a>
+      <a href="https://github.com/YOUR_USERNAME/FishScript" target="_blank">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="heroText">
+      <p class="badge">🐟 The world’s most unnecessary aquarium programming language</p>
+      <h1>Code inside an aquarium.</h1>
+      <p>
+        FishScript is a chaotic esolang where variables are fish, blocks are reefs,
+        functions are rituals, and bugs are probably sharks.
+      </p>
+      <div class="buttons">
+        <a class="primary" href="#install">Install FishScript</a>
+        <a class="secondary" href="#examples">See Example</a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <pre><code>AQUARIUM OPENS
+
+HATCH snacks AS ["kelp", "worm"]
+DROP "pizza algae" INTO snacks
+
+SING "Random snack:"
+SING CHOOSE FROM snacks
+
+PANICFISH
+
+AQUARIUM CLOSES</code></pre>
+    </div>
+  </header>
+
+  <section id="install" class="section">
+    <h2>Install</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>For developers</h3>
+        <pre><code>pip install -e .
+fishscript ide</code></pre>
+      </div>
+      <div class="card">
+        <h3>Run a file</h3>
+        <pre><code>fishscript run hello.fish</code></pre>
+      </div>
+      <div class="card">
+        <h3>Windows app</h3>
+        <p>Download the installer from GitHub Releases after you build and upload it.</p>
+        <a class="download" href="https://github.com/YOUR_USERNAME/FishScript/releases" target="_blank">Download installer</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="syntax" class="section">
+    <h2>Syntax</h2>
+    <div class="syntaxGrid">
+      <div><b>HATCH x AS 5</b><span>Create a fish variable</span></div>
+      <div><b>x SWALLOWS 3</b><span>Add to a fish</span></div>
+      <div><b>x NIBBLES 1</b><span>Subtract from a fish</span></div>
+      <div><b>SING x</b><span>Print output</span></div>
+      <div><b>FISH x FROM VOID</b><span>Ask for input</span></div>
+      <div><b>DICEFISH 1 10</b><span>Random number</span></div>
+      <div><b>REEF / SURFACE</b><span>Start and end a block</span></div>
+      <div><b>RITUAL</b><span>Create a function</span></div>
+    </div>
+  </section>
+
+  <section id="examples" class="section">
+    <h2>Example</h2>
+    <div class="terminal wide">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <pre><code id="exampleCode">AQUARIUM OPENS
+
+RITUAL DOUBLE WITH fishy
+REEF
+    fishy SWALLOWS fishy
+    RELEASE fishy
+SURFACE
+
+SING "Double fish magic:"
+SING DOUBLE(5)
+
+AQUARIUM CLOSES</code></pre>
+    </div>
+    <button id="copyBtn">Copy example</button>
+  </section>
+
+  <footer>
+    <p>Made with bubbles, questionable decisions, and Python.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

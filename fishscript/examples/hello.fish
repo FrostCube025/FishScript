@@ -1,0 +1,6 @@
+AQUARIUM OPENS
+
+SING "Hello from FishScript!"
+PANICFISH
+
+AQUARIUM CLOSES

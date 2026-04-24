@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fishscript-lang"
+version = "1.0.0"
+description = "FishScript: the world’s most unnecessary aquarium programming language."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "FishScript Creator" }
+]
+license = { file = "LICENSE" }
+keywords = ["esolang", "programming-language", "tkinter", "fishscript"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Interpreters"
+]
+
+[project.scripts]
+fishscript = "fishscript.cli:main"
+
+[tool.setuptools]
+packages = ["fishscript"]
+include-package-data = true

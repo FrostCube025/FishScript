@@ -135,10 +135,11 @@ class FishScriptIDE:
             fg="#94a3b8",
             state="disabled",
             font=("Consolas", 12),
+            wrap="none",
         )
         self.line_numbers.pack(side="left", fill="y")
 
-        self.editor = scrolledtext.ScrolledText(
+        self.editor = tk.Text(
             editor_frame,
             font=("Consolas", 12),
             bg=self.editor_bg,
@@ -149,8 +150,14 @@ class FishScriptIDE:
         )
         self.editor.pack(side="left", fill="both", expand=True)
 
+        scrollbar = tk.Scrollbar(editor_frame, command=self.on_scrollbar)
+        scrollbar.pack(side="right", fill="y")
+
+        self.editor.config(yscrollcommand=scrollbar.set)
+
         self.editor.bind("<KeyRelease>", self.on_change)
-        self.editor.bind("<MouseWheel>", lambda e: self.update_line_numbers())
+        self.editor.bind("<MouseWheel>", self.on_mousewheel)
+        self.editor.bind("<ButtonRelease-1>", self.on_change)
 
         self.editor.tag_configure("keyword", foreground=self.keyword)
         self.editor.tag_configure("string", foreground=self.string)
@@ -171,21 +178,35 @@ class FishScriptIDE:
             fg="#a7f3d0",
             insertbackground="white",
             height=9,
+            wrap="word",
         )
         self.output_box.pack(fill="both", padx=12, pady=(0, 12))
+
+    def on_scrollbar(self, *args):
+        self.editor.yview(*args)
+        self.line_numbers.yview(*args)
+
+    def on_mousewheel(self, event):
+        self.root.after(1, self.sync_line_numbers)
+
+    def sync_line_numbers(self):
+        self.line_numbers.yview_moveto(self.editor.yview()[0])
+        self.update_line_numbers()
 
     def on_change(self, event=None):
         self.update_line_numbers()
         self.highlight()
 
     def update_line_numbers(self):
-        lines = int(self.editor.index("end-1c").split(".")[0])
-        nums = "\n".join(str(i) for i in range(1, lines + 1))
+        line_count = int(self.editor.index("end-1c").split(".")[0])
+        nums = "\n".join(str(i) for i in range(1, line_count + 1))
 
         self.line_numbers.config(state="normal")
         self.line_numbers.delete("1.0", tk.END)
         self.line_numbers.insert("1.0", nums)
         self.line_numbers.config(state="disabled")
+
+        self.line_numbers.yview_moveto(self.editor.yview()[0])
 
     def highlight(self):
         for tag in ["keyword", "string", "comment"]:
@@ -231,7 +252,7 @@ class FishScriptIDE:
 
     def new_file(self):
         self.current_file = None
-        self.set_code("AQUARIUM OPENS\\n\\nAQUARIUM CLOSES\\n")
+        self.set_code("AQUARIUM OPENS\n\nAQUARIUM CLOSES\n")
         self.root.title("FishScript IDE - Untitled")
 
     def open_file(self):
@@ -239,6 +260,7 @@ class FishScriptIDE:
             title="Open FishScript file",
             filetypes=[("FishScript files", "*.fish"), ("All files", "*.*")]
         )
+
         if not path:
             return
 
@@ -260,6 +282,7 @@ class FishScriptIDE:
             defaultextension=".fish",
             filetypes=[("FishScript files", "*.fish"), ("All files", "*.*")]
         )
+
         if not path:
             return
 
@@ -268,7 +291,7 @@ class FishScriptIDE:
         self.root.title(f"FishScript IDE - {self.current_file.name}")
 
     def print_output(self, text):
-        self.output_box.insert(tk.END, str(text) + "\\n")
+        self.output_box.insert(tk.END, f"{text}\n")
         self.output_box.see(tk.END)
 
     def clear_output(self):
@@ -318,15 +341,17 @@ class FishScriptIDE:
 
     def run_code(self):
         self.clear_output()
+        self.print_output("🐟 Running FishScript...\n")
 
         try:
             FishScript(self.print_output, self.ask_input).run(self.get_code())
+            self.print_output("\n✅ Aquarium finished.")
         except FishScriptError as error:
+            self.print_output(f"\n❌ FishScript Error:\n{error}")
             messagebox.showerror("FishScript Error", str(error))
-            self.print_output(f"ERROR: {error}")
         except Exception as error:
+            self.print_output(f"\n❌ Unexpected Error:\n{error}")
             messagebox.showerror("Unexpected Error", str(error))
-            self.print_output(f"UNEXPECTED ERROR: {error}")
 
 
 def main():
